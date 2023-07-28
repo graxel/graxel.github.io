@@ -388,16 +388,17 @@ h6 {
   z-index: 1;
 }
 
-#hero .greeting {
-  font-size: 40px;
-  color: #fff;
-}
 #hero .hero-container {
+  padding-left: 32px;
   position: relative;
   z-index: 2;
   min-width: 300px;
 }
 
+#hero .greeting {
+  font-size: 40px;
+  color: #fff;
+}
 #hero h1 {
   margin: 0 0 10px 0;
   font-size: 64px;
