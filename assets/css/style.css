@@ -645,7 +645,7 @@ section {
 }
 
 .resume .resume-item ul li {
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 
 .resume .resume-item:last-child {
