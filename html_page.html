@@ -12,11 +12,10 @@
     <div id="numbers">Waiting...</div>
 
     <script>
-        // Connect to the Python WebSocket server
-        const ws = new WebSocket("ws://localhost:6789");
+        // Use wss and your public domain
+        const ws = new WebSocket('wss://data.kevingrazel.com:6789');
 
         ws.onmessage = event => {
-            // The message from the server is in JSON
             const data = JSON.parse(event.data);
             document.getElementById('numbers').textContent = data.value;
         };
