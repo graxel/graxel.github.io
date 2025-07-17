@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Number Display</title>
+    <style>
+        body { font-family: sans-serif; }
+        #numbers { font-size: 2em; color: #007acc; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Live Number from WebSocket</h1>
+    <div id="numbers">Waiting...</div>
+
+    <script>
+        // Connect to the Python WebSocket server
+        const ws = new WebSocket("ws://localhost:6789");
+
+        ws.onmessage = event => {
+            // The message from the server is in JSON
+            const data = JSON.parse(event.data);
+            document.getElementById('numbers').textContent = data.value;
+        };
+
+        ws.onopen = () => {
+            document.getElementById('numbers').textContent = "Connected, waiting for first number...";
+        };
+
+        ws.onerror = e => {
+            document.getElementById('numbers').textContent = "WebSocket error";
+        };
+
+        ws.onclose = () => {
+            document.getElementById('numbers').textContent = "WebSocket closed";
+        };
+    </script>
+</body>
+</html>
