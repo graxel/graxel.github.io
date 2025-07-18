@@ -1,23 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebSocket Number Display</title>
+    <title>WebSocket Number Display with Live Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body { font-family: sans-serif; }
         #numbers { font-size: 2em; color: #007acc; margin-top: 20px; }
+        #liveplot { width: 100%; max-width: 700px; height: 400px; margin-top: 40px;}
     </style>
 </head>
 <body>
     <h1>Live Number from WebSocket</h1>
     <div id="numbers">Waiting...</div>
+    <div id="liveplot"></div>
 
     <script>
+        // Start an empty plot
+        let x_vals = [];
+        let y_vals = [];
+
+        Plotly.newPlot('liveplot', [{
+            x: x_vals,
+            y: y_vals,
+            mode: 'lines+markers',
+            line: {shape: 'spline'},
+            marker: {color: '#007acc'},
+            name: "Incoming Value"
+        }], {
+            margin: { t: 20 },
+            xaxis: { title: "Time (hh:mm:ss)" },
+            yaxis: { title: "Value" }
+        });
+
         // Use wss and your public domain
         const ws = new WebSocket('wss://data.kevingrazel.com:6789');
 
         ws.onmessage = event => {
             const data = JSON.parse(event.data);
-            document.getElementById('numbers').textContent = data.value;
+            const num = data.value;
+
+            // Update number
+            document.getElementById('numbers').textContent = num;
+
+            // Time axis
+            const now = new Date();
+            const timestr = now.toLocaleTimeString();
+
+            // Add new data to arrays
+            x_vals.push(timestr);
+            y_vals.push(num);
+
+            // Update Plotly with new point
+            Plotly.update('liveplot', {
+                x: [x_vals],
+                y: [y_vals]
+            });
+
+            // Optional: Limit chart to last N points for readability
+            const N = 60; // e.g., 60 seconds
+            if (x_vals.length > N) {
+                x_vals = x_vals.slice(-N);
+                y_vals = y_vals.slice(-N);
+            }
         };
 
         ws.onopen = () => {
