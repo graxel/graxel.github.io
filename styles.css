@@ -1,0 +1,46 @@
+body {
+  font-family: sans-serif;
+  padding: 2em;
+}
+
+#plot {
+  width: 100%;
+  max-width: 900px;
+  height: 450px;
+  margin: auto;
+}
+
+#ws-status {
+  margin-bottom: 1em;
+}
+
+/* Container that holds last-updated boxes */
+#last-updated-container {
+  display: flex;
+  gap: 1.5em;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+/* Individual boxes for last-updated info */
+.last-updated-box {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  min-width: 130px;
+  background-color: #f9f9f9;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+  font-size: 0.9em;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.last-updated-label {
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+
+.last-updated-time {
+  font-family: monospace;
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Temperature Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.30.1.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Plotly WebSocket + REST Live Test Plot</h1>
+  <div id="ws-status">Initializing...</div>
+  <div id="last-updated-container">
+    <!-- Boxes injected by JS -->
+  </div>
+  <div id="plot"></div>
+
+  <!-- Use module type to enable ES6 import/export -->
+  <!-- <script src="test2.js"></script> -->
+  <script type="module" src="js/main.js?v=1"></script>
+</body>
+</html>
