@@ -1,0 +1,46 @@
+{
+  "CVSHealth": {
+    "jobTitle": "Senior Machine Learning Engineer",
+    "companyName": "CVSHealth",
+    "location": "New York, NY",
+    "currentlyWorkHere": false,
+    "startMonth": "07",
+    "startYear": "2024",
+    "endMonth": "07",
+    "endYear": "2025",
+    "roleDescription": "- Led the design and deployment of robust, production-grade ML systems to detect and block botnet web traffic in real time, training on 2TB of data and building scalable, maintainable ML pipelines.\n- Developed and optimized a denoising variational autoencoder for anomaly detection with advanced deep learning architectures and rigorous unit and integration testing.\n- Engineered custom tokenization and transformer-based embedding pipelines to convert sparse web traffic data into dense, model-ready tensors, reflecting DSP-style data processing.\n- Championed MLOps best practices by automating model deployment, monitoring, and retraining workflows for continuous production quality.\n- Collaborated cross-functionally with engineering and product teams to integrate ML features into production systems, supporting ongoing feature development and bug triage."
+  },
+  "Parker-Hannifin": {
+    "jobTitle": "AI Engineer",
+    "companyName": "Parker-Hannifin",
+    "location": "Remote",
+    "currentlyWorkHere": false,
+    "startMonth": "02",
+    "startYear": "2024",
+    "endMonth": "07",
+    "endYear": "2024",
+    "roleDescription": "- Led end-to-end development of a retrieval-augmented (RAG) chatbot platform, architecting Python-based backend systems for scalable, production-ready deployment on Azure.\n- Integrated ML models and MongoDB vector database systems into enterprise environments.\n- Instituted CI/CD automation and code quality standards, mentoring junior engineers and fostering a culture of maintainable, high-quality software development."
+  },
+  "PlanetX": {
+    "jobTitle": "Machine Learning Engineer",
+    "companyName": "PlanetX, LLC",
+    "location": "New York, NY",
+    "currentlyWorkHere": false,
+    "startMonth": "09",
+    "startYear": "2022",
+    "endMonth": "08",
+    "endYear": "2023",
+    "roleDescription": "- Led project strategies as data science lead, ensuring quality, fostering teamwork, and driving accountability.\n- Architected and deployed multi-factor product recommendation engines using Python-based FastAPI on AWS.\n- Tripled the number of products available on the retail platform using semantic NLP to improve record linkage.\n- Built OpenAI ChatGPT integration for an environmental consultant chatbot and to enhance the product data pipeline.\n- Trained deep learning models (CNN-BiLSTM, BERT) to categorize products and improve user shopping experience.\n- Utilized advanced SQL queries to investigate core statistics and overhaul core categorization and peer scoring models.\n- Developed web scrapers with Python and Selenium to source alternative data and expand product offerings.\n- Partnered with Product and Engineering teams to identify and fix anomalies and address user UX feedback."
+  },
+  "MUFG": {
+    "jobTitle": "Data Scientist",
+    "companyName": "MUFG Investor Services",
+    "location": "New York, NY",
+    "currentlyWorkHere": false,
+    "startMonth": "11",
+    "startYear": "2019",
+    "endMonth": "09",
+    "endYear": "2022",
+    "roleDescription": "- Built a Python ML training suite to rapidly train and evaluate hundreds of models to forecast investor capital movements.\n- Tuned LightGBM models via Bayesian optimization, achieving a 5.0+ lift in targeting users likely to redeem investments.\n- Mentored junior analysts in data wrangling and machine learning best practices.\n- Led development of backend ETL data architecture using dbt and frontend PowerBI UI for a new ESG reporting product.\n- Developed a system to automatically extract information from invoices, writing Python scripts to parse invoice PDFs and training spaCy NER models to process text.\n- Planned product roadmap to expand business use cases given MUFG's position as a fund administrator.\n- Accelerated an Operations deduplication project by 10x using NLP fuzzy matching techniques to identify duplicate accounts."
+  }
+}
