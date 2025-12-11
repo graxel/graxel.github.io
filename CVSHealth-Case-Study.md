@@ -4,18 +4,18 @@ title: CVSHealth Botnet Shield Case Study
 ---
 # CVSHealth Botnet Shield Case Study
 
-A significant fraction of modern online traffic can be labeled malicious, with attacks spanning from credential stuffing, DDoS, card testing, and scraping. These attacks can result in business losses due to fraud, account takeovers, data leaks, and more. This study implemented a machine learning system to detect and block malicious automated web traffic from customer-serving endpoints, while preserving legitimate user experience and platform uptime.
+A significant portion of modern web traffic consists of malicious activity, including credential stuffing, DDoS attacks, card testing, and large-scale scraping. These threats lead to costly problems such as fraud, account takeovers, and data breaches. This case study describes the implementation of a machine learning system designed to detect and block automated malicious requests targeting customer-facing endpoints, while safeguarding legitimate user experience and platform availability.
 ![overview](assets/CVS-case-study/overview.jpg)
 
 <br>
 ## Use Case and Desired Outcome
 
-The goal of this study was to detect and block malicious automated traffic (versus legitimate human users) from hitting company server endpoints using available traffic header features like user agent, referring URL, auth tokens, and cookie headers to enable real-time intervention. The study hoped to achieve a reduction in fraud incidents, account takeovers, and scraping, and free up the cybersecurity team to pursue proactive threat hunting, while still maintaining human user access.
+The project’s aim was to distinguish and block automated malicious traffic from legitimate human users by leveraging HTTP header features, such as user agents, referrer URLs, authentication tokens, and cookies. The system’s primary goals were to reduce fraud incidents, prevent account takeovers, limit scraping, and free the cybersecurity team up to focus on proactive threat hunting, all without interrupting legitimate customer access.
 
 <br>
 ## Business Alignment
 
-Attacks on CVSHealth's server endpoints cause direct revenue losses from fraud and account takeovers, plus higher infrastructure costs from excess traffic volume. Automating botnet blocking reduces these impacts, as well as reducing manual investigations for the cybersecurity team. Furthermore, it cuts costs from abuse-driven scaling and preserved account integrity to limit customer churn, supporting CVS's operational needs.
+Attacks against CVS Health’s online infrastructure lead to direct financial losses from fraud and account compromises, along with inflated infrastructure costs due to excessive bot traffic. Automating malicious traffic detection mitigates these losses, reduces manual investigations, and lowers costs from unnecessary scaling. More importantly, it protects customer accounts, helping to maintain trust; a key operational priority for the business.
 
 
 ![old-system](assets/CVS-case-study/old-system.jpg) 
