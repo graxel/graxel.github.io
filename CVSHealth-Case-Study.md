@@ -1,3 +1,5 @@
+# CVSHealth Botnet Shield Case Study
+
 A significant fraction of modern online traffic can be labeled malicious, with attacks spanning from credential stuffing, DDoS, card testing, and scraping. These attacks can result in business losses due to fraud, account takeovers, data leaks, and more. This study implemented a machine learning system to detect and block malicious automated web traffic from customer-serving endpoints, while preserving legitimate user experience and platform uptime.
 ![[assets/CVS-case-study/overview.jpg]]
 
