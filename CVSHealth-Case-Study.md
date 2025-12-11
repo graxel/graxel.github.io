@@ -1,7 +1,11 @@
+---
+layout: default
+title: CVSHealth Botnet Shield Case Study
+---
 # CVSHealth Botnet Shield Case Study
 
 A significant fraction of modern online traffic can be labeled malicious, with attacks spanning from credential stuffing, DDoS, card testing, and scraping. These attacks can result in business losses due to fraud, account takeovers, data leaks, and more. This study implemented a machine learning system to detect and block malicious automated web traffic from customer-serving endpoints, while preserving legitimate user experience and platform uptime.
-![[/assets/CVS-case-study/overview.jpg]]
+![overview](assets/CVS-case-study/overview.jpg)
 
 ## Use Case and Desired Outcome
 
@@ -12,9 +16,9 @@ The goal of this study was to detect and block malicious automated traffic (vers
 Attacks on CVSHealth's server endpoints cause direct revenue losses from fraud and account takeovers, plus higher infrastructure costs from excess traffic volume. Automating botnet blocking reduces these impacts, as well as reducing manual investigations for the cybersecurity team. Furthermore, it cuts costs from abuse-driven scaling and preserved account integrity to limit customer churn, supporting CVS's operational needs.
 
 
-![[assets/CVS-case-study/old-system.jpg]] 
+![old-system](assets/CVS-case-study/old-system.jpg) 
 
-![[assets/CVS-case-study/enhanced-system.jpg]]
+![enhanced-system](assets/CVS-case-study/enhanced-system.jpg)
 
 ## Plan of Attack
 
@@ -26,7 +30,7 @@ Proof of concept feasibility models applied dimensionality reduction methods on 
 
 ​With the feasibility of unsupervised classification proven, data pipelines for six months of training data were prepared for each of the seven endpoints. At the same time, a variational autoencoder deep learning model was built, and training and hyperparameter tuning pipelines were set up for each of the seven endpoints. Trained models were tracked in MLFlow, and deployed and served with Databricks' Model Serving service.
 
-![[assets/CVS-case-study/model-details.jpg]]
+![model-details](assets/CVS-case-study/model-details.jpg)
 
 ## Success and Challenges
 
