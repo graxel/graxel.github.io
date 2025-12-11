@@ -7,10 +7,12 @@ title: CVSHealth Botnet Shield Case Study
 A significant fraction of modern online traffic can be labeled malicious, with attacks spanning from credential stuffing, DDoS, card testing, and scraping. These attacks can result in business losses due to fraud, account takeovers, data leaks, and more. This study implemented a machine learning system to detect and block malicious automated web traffic from customer-serving endpoints, while preserving legitimate user experience and platform uptime.
 ![overview](assets/CVS-case-study/overview.jpg)
 
+<br>
 ## Use Case and Desired Outcome
 
 The goal of this study was to detect and block malicious automated traffic (versus legitimate human users) from hitting company server endpoints using available traffic header features like user agent, referring URL, auth tokens, and cookie headers to enable real-time intervention. The study hoped to achieve a reduction in fraud incidents, account takeovers, and scraping, and free up the cybersecurity team to pursue proactive threat hunting, while still maintaining human user access.
 
+<br>
 ## Business Alignment
 
 Attacks on CVSHealth's server endpoints cause direct revenue losses from fraud and account takeovers, plus higher infrastructure costs from excess traffic volume. Automating botnet blocking reduces these impacts, as well as reducing manual investigations for the cybersecurity team. Furthermore, it cuts costs from abuse-driven scaling and preserved account integrity to limit customer churn, supporting CVS's operational needs.
@@ -20,6 +22,7 @@ Attacks on CVSHealth's server endpoints cause direct revenue losses from fraud a
 
 ![enhanced-system](assets/CVS-case-study/enhanced-system.jpg)
 
+<br>
 ## Plan of Attack
 
 The team began by selecting endpoints from a cybersec-provided list of over 100, ranked by traffic volume. Endpoints were filtered to those with sufficient data for training but manageable scope for initial testing, resulting in seven online shopping-related endpoints. Years of traffic data were available, along with the blocking rules that had been put in place by the cybersecurity team tagging traffic as malicious.
@@ -32,18 +35,21 @@ Proof of concept feasibility models applied dimensionality reduction methods on 
 
 ![model-details](assets/CVS-case-study/model-details.jpg)
 
+<br>
 ## Success and Challenges
 
 UMAP visualizations showed distinct latent space regions dominated by malicious traffic (>90% purity in top clusters via post-hoc labels), confirming embeddings captured separable signals for variational autoencoder anomaly detection. Production models, each trained for a specific endpoint on six months of data and served with Databricks, integrated successfully into Splunk with phased rollout, providing real-time bot scores for security triage.
 
 Unfortunately, some advanced bots fell into ambiguous latent regions, evading high reconstruction error thresholds. Seasonal traffic surges (e.g., promotions) may have produced false anomalies; this will require a deeper look into threshold tuning.
 
+<br>
 ## What Worked Well
 
 - Unsupervised UMAP PoCs provided rapid visual proof, expediting stakeholder buy-in.​
 - Model metrics displayed on realtime dashboards also gained stakeholder buy-in while supporting the case for regular model retraining.
 - Feature engineering blending header information signals outperformed manual rulesets.
 
+<br>
 ## Issues Faced
 
 - Large size of training data required careful design of feature engineering processes and tradeoffs between simplicity, speed, reliability, and cost.
@@ -51,6 +57,7 @@ Unfortunately, some advanced bots fell into ambiguous latent regions, evading hi
 - Traffic surges were sometimes interpreted as bots.
 - Tensions arose between blocking aggressiveness and allowing potential legitimate human users.
 
+<br>
 ## Takeaways
 
 - Using unsupervised learning can provide a model with flexibility beyond the story labeled data tells. This approach excels for zero-day threats and drift in adversarial domains.    
