@@ -1,10 +1,23 @@
+---
+layout: nil
+---
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
   <head>
-    <meta charset="UTF-8">
-    <title>{{ page.title }}</title>
+    <meta charset="utf-8">
+    <title>{{ page.title | escape }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {%- comment -%}
+      Pull in Minima's CSS and assets so styling remains.
+    {%- endcomment -%}
+    <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   </head>
   <body>
-    {{ content }}
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
   </body>
 </html>
