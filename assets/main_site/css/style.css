@@ -399,6 +399,7 @@ h6 {
   font-size: 40px;
   color: #fff;
 }
+
 #hero h1 {
   margin: 0 0 10px 0;
   font-size: 64px;
@@ -455,6 +456,7 @@ section {
 .section-title {
   padding-bottom: 30px;
 }
+
 .resume-section {
   padding-bottom: 0px;
 }
@@ -612,7 +614,7 @@ section {
 .resume .resume-title {
   font-size: 26px;
   font-weight: 700;
-/*  margin-top: 20px;*/
+  /*  margin-top: 20px;*/
   margin-bottom: 20px;
   color: #050d18;
 }
@@ -713,9 +715,16 @@ section {
   z-index: 1;
 }
 
+.portfolio .portfolio-wrap img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
 .portfolio .portfolio-wrap::before {
   content: "";
-/*  background: rgba(0, 0, 0, 0.2);*/
+  /*  background: rgba(0, 0, 0, 0.2);*/
   background: rgba(255, 255, 255, 0.2);
   position: absolute;
   left: 0;
@@ -840,6 +849,7 @@ section {
   color: #707070;
   margin-bottom: 0;
 }
+
 /*--------------------------------------------------------------
 # Services
 --------------------------------------------------------------*/

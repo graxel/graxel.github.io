@@ -10,23 +10,25 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/main_site/img/favicon.png" rel="icon">
+  <link href="assets/main_site/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/main_site/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/main_site/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/main_site/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/main_site/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/main_site/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <!-- <link href="assets/main_site/vendor/remixicon/remixicon.css" rel="stylesheet"> -->
+  <link href="assets/main_site/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/main_site/css/style.css" rel="stylesheet">
 
   <!-- some remote copy-to-clipboard script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
@@ -48,9 +50,9 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About me</a></li>
+          <li><a class="nav-link scrollto" href="#portfolio">Projects</a></li>
           <li><a class="nav-link scrollto" href="#resume">Resume</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#about">About me</a></li>
           <!-- <li><a class="nav-link scrollto" href="#services">Fun Stuff</a></li> -->
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -72,34 +74,86 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
-      <h1 class="greeting">Hi, I'm Kevin. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
-      <p>I'm <span class="typed" data-typed-items="a data scientist, a machine learning engineer, obsessed with economics, a blockchain enthusiast, a robotics tinkerer"></span></p>
+      <h1 class="greeting">Hi, I'm Kevin.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </h1>
+      <p>I'm <span class="typed"
+          data-typed-items="a data scientist, a machine learning engineer, obsessed with economics, a blockchain enthusiast, a robotics tinkerer"></span>
+      </p>
     </div>
   </section><!-- End Hero -->
 
   <main id="main">
 
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio section-bg">
       <div class="container">
 
-        <!-- <div class="section-title">
-          
-        </div> -->
+        <div class="section-title">
+          <h2>Projects</h2>
+          <p>Some freelance jobs and personal projects I've built over the years.</p>
+        </div>
 
-        <div class="row">
-          <div class="col-lg-8 pt-4 pt-lg-0 content section-title" data-aos="fade-right">
-            <h2>My Journey to Data Science</h2>
-            <p>I started my career as a chemical engineer in the mining industry--abroad in Santiago, Chile, no less. It was there that I got my first taste of <em>datamining</em>, as it was called back then, using R. Fast forward four years, and my obsession with Excel macros bore fruit in the form of a document generator for a commonly submitted report at work. Suddenly, I found myself firmly in the grip of the buzzing tech scene of San Francisco. I started building Ethereum miners and selling them online. I jumped at the opportunity to build an IoT-driven data dashboard at work. I was hooked. I enrolled in a machine learning bootcamp and snagged a job in finance. Before I knew it, I was forecasting investment transaction volumes and modeling ESG ratings. This all brought me to PlanetX, a startup that, while it lasted, sought to bring environmental transparency to online shopping.</p>
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-personal">
+            <a href="live_temp_data.html">
+              <div class="portfolio-wrap">
+                <h4>Climate Monitor</h4>
+                <img src="assets/climate_monitor/breadboard.jpg" class="img-fluid" alt="">
+              </div>
+            </a>
           </div>
-          <div class="col-lg-4" data-aos="fade-left">
-            <img src="assets/img/profile-img.jpg" class="img-fluid" alt="" width="300" height="300">
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-work">
+            <a href="CVSHealth-Case-Study.html">
+              <div class="portfolio-wrap">
+                <h4>CVS Case Study</h4>
+                <img src="assets/CVS-case-study/overview.jpg" class="img-fluid" alt="">
+              </div>
+            </a>
           </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-personal">
+            <a href="cancer_topics_over_time.html">
+              <div class="portfolio-wrap">
+                <h4>Pubmed Cancer Articles</h4>
+                <img src="assets/main_site/img/shutterstock_1117458389_8ef2a40ec3.jpg" class="img-fluid" alt="">
+              </div>
+            </a>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-personal">
+            <a href="camp-counselor.html">
+              <div class="portfolio-wrap">
+                <h4>Camp Counselor</h4>
+                <img src="assets/camp_counselor/camp-counselor-screenshot.png" class="img-fluid" alt="">
+              </div>
+            </a>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-work">
+            <a href="preventative-maintenance.html">
+              <div class="portfolio-wrap">
+                <h4>Refinery Preventative Maintenance</h4>
+                <img src="assets/preventative_maintenance/gas-compressor-refinery.jpg" class="img-fluid" alt="">
+              </div>
+            </a>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-work">
+            <a href="whalewatch.html">
+              <div class="portfolio-wrap">
+                <h4>Project WhaleWatch</h4>
+                <img src="assets/whalewatch/whalewatch.jpg" class="img-fluid" alt="">
+              </div>
+            </a>
+          </div>
+
         </div>
 
       </div>
-    </section><!-- End About Section -->
-
+    </section><!-- End Portfolio Section -->
 
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
@@ -114,14 +168,45 @@
 
             <!-- <h3 class="resume-title">Professional Experience</h3> -->
             <div class="resume-item">
+              <h4>Senior Machine Learning Engineer – CVSHealth</h4>
+              <h5>July 2024 – July 2025</h5>
+              <ul>
+                <li>Led the design and deployment of robust, production-grade ML systems to detect and block botnet web
+                  traffic in real time, training on 2TB of data and building scalable, maintainable ML pipelines.</li>
+                <li>Developed and optimized a denoising variational autoencoder for anomaly detection with advanced deep
+                  learning architectures and rigorous unit and integration testing.</li>
+                <li>Engineered custom tokenization and transformer-based embedding pipelines to convert sparse web
+                  traffic data into dense, model-ready tensors, reflecting DSP-style data processing.</li>
+                <li>Championed MLOps best practices by automating model deployment, monitoring, and retraining workflows
+                  for continuous production quality.</li>
+                <li>Collaborated cross-functionally with engineering and product teams to integrate ML features into
+                  production systems, supporting ongoing feature development and bug triage.</li>
+              </ul>
+            </div>
+            <div class="resume-item">
+              <h4>AI Engineer – Parker-Hannifin</h4>
+              <h5>February 2024 – July 2024</h5>
+              <ul>
+                <li>Led end-to-end development of a retrieval-augmented (RAG) chatbot platform, architecting
+                  Python-based backend systems for scalable, production-ready deployment on Azure.</li>
+                <li>Integrated ML models and MongoDB vector database systems into enterprise environments.</li>
+                <li>Instituted CI/CD automation and code quality standards, mentoring junior engineers and fostering a
+                  culture of maintainable, high-quality software development.</li>
+              </ul>
+            </div>
+            <div class="resume-item">
               <h4>Senior Data Scientist – PlanetX</h4>
               <h5>November 2022 – July 2023</h5>
               <ul>
-                <li>Tripled the number of products available on PlanetX website using semantic NLP-based and fuzzy text-matching methods to improve record linking logic.</li>
-                <li>Built scraper bots with Selenium and Python to source alternative data and link unmatched brands to companies.</li>
+                <li>Tripled the number of products available on PlanetX website using semantic NLP-based and fuzzy
+                  text-matching methods to improve record linking logic.</li>
+                <li>Built scraper bots with Selenium and Python to source alternative data and link unmatched brands to
+                  companies.</li>
                 <li>Expanded machine learning infrastructure on AWS EC2 and S3 services.</li>
-                <li>Wrote ad hoc SQL queries to investigate core model statistics and fine tune scoring distributions.</li>
-                <li>Worked closely with Product and Engineering teams to identify and fix anomalies and address user UX feedback.</li>
+                <li>Wrote ad hoc SQL queries to investigate core model statistics and fine tune scoring distributions.
+                </li>
+                <li>Worked closely with Product and Engineering teams to identify and fix anomalies and address user UX
+                  feedback.</li>
               </ul>
             </div>
             <div class="resume-item">
@@ -130,20 +215,27 @@
               <ul>
                 <li>Investigated feasibility of forecasting investor capital movements.</li>
                 <li>Used dbt to build data warehouse backend ETL processes in AWS.</li>
-                <li>Wrote SQL queries to obtain raw data; cleaned and structured data to be used to train machine learning models.</li>
+                <li>Wrote SQL queries to obtain raw data; cleaned and structured data to be used to train machine
+                  learning models.</li>
                 <li>Built model training suite to rapidly train and track performance of hundreds of models.</li>
                 <li>Used Bayesian optimization to tune LightGBM model hyperparameters.</li>
                 <li>Achieved a lift value greater than 5.0 in targeting accounts likely to redeem their investment.</li>
                 <!-- <br> -->
-                <li>Developed ESG reporting product to expand core fund administration business into rapidly growing ESG sector.</li>
-                <li>Designed and led development of backend data architecture as well as frontend PowerBI user interface.</li>
-                <li>Planned product roadmap toward further business cases given MUFG's unique position as a fund administrator.</li>
+                <li>Developed ESG reporting product to expand core fund administration business into rapidly growing ESG
+                  sector.</li>
+                <li>Designed and led development of backend data architecture as well as frontend PowerBI user
+                  interface.</li>
+                <li>Planned product roadmap toward further business cases given MUFG's unique position as a fund
+                  administrator.</li>
                 <li>Data backend of ESG product used as basis for new company-wide data architecture.</li>
                 <!-- <br> -->
-                <li>Expedited Ops Team account deduplication project by 10x using fuzzy matching to identify duplicate accounts.</li>
+                <li>Expedited Ops Team account deduplication project by 10x using fuzzy matching to identify duplicate
+                  accounts.</li>
                 <!-- <br> -->
-                <li>Developed a proof-of-concept system to extract information from invoices to reduce invoice processing workload.</li>
-                <li>Parsed PDF files to obtain raw text; trained SpaCy NER (Named Entity Recognition) models to process text.</li>
+                <li>Developed a proof-of-concept system to extract information from invoices to reduce invoice
+                  processing workload.</li>
+                <li>Parsed PDF files to obtain raw text; trained SpaCy NER (Named Entity Recognition) models to process
+                  text.</li>
                 <li>Established performance baseline and foundation of project for further development.</li>
               </ul>
             </div>
@@ -152,107 +244,63 @@
               <h5>April 2016 – November 2019</h5>
               <ul>
                 <li>Facilitated Process Hazard Analysis studies and Management of Change discussions.</li>
-                <li>Led teams of three to ten engineers and operators, serving as project consultant and client point of contact for projects at industrial chemical process complexes across the U.S.</li>
-                <li>Cut project lifecycle time by 50% by writing Visual Basic macros to automate processes and deliverable creation.</li>
+                <li>Led teams of three to ten engineers and operators, serving as project consultant and client point of
+                  contact for projects at industrial chemical process complexes across the U.S.</li>
+                <li>Cut project lifecycle time by 50% by writing Visual Basic macros to automate processes and
+                  deliverable creation.</li>
               </ul>
             </div>
             <div class="resume-item">
               <h4>Data Science Fellow – Metis</h4>
               <h5>July 2018 – December 2018</h5>
-              <p>Metis is a highly selective, immersive, full-time bootcamp in which I developed several data science projects, including:</p>
+              <p>Metis is a highly selective, immersive, full-time bootcamp in which I developed several data science
+                projects, including:</p>
               <ul>
                 <li>Time series analysis of federal economic data to forecast probability of economic recession</li>
                 <li>Deseasonalized regression model to forecast subway ridership load by weather conditions</li>
-                <li>Designed voice recognition algorithm to identify speaker in audio clips of presidential speeches</li>
-                <li>Investigated trends in the focus of Congressional legislature using Latent Dirichlet Allocation (LDA) topic modeling.</li>
+                <li>Designed voice recognition algorithm to identify speaker in audio clips of presidential speeches
+                </li>
+                <li>Investigated trends in the focus of Congressional legislature using Latent Dirichlet Allocation
+                  (LDA) topic modeling.</li>
               </ul>
             </div>
-            <!-- <div class="resume-item">
-              <h4>Senior Data Scientist</h4>
-              <h5>November 2022 - July 2023</h5>
-              <p><em>PlanetX</em></p>
-              <ul>
-                <li>Improved record linking logic by researching and implementing NLP-based and fuzzy text-matching methods.</li>
-                <li>Built scraper bots with Selenium and Python to source alternative data and link unmatched brands to companies.</li>
-                <li>The above efforts enabled PlanetX to triple the number of products available on its website.</li>
-                <li>Wrote ad hoc SQL queries to investigate core model statistics and fine tune scoring distributions.</li>
-                <li>Worked closely with Product and Engineering teams to identify and fix anomalies and to address user UX feedback.</li>
-              </ul>
-            </div> -->
-            <!-- <div class="resume-item">
-              <h4>Senior Data Scientist</h4>
-              <h5>November 2022 - July 2023</h5>
-              <p><em>PlanetX</em></p>
-              <ul>
-                <li>Improved record linking logic by researching and implementing NLP-based and fuzzy text-matching methods.</li>
-                <li>Built scraper bots with Selenium and Python to source alternative data and link unmatched brands to companies.</li>
-                <li>The above efforts enabled PlanetX to triple the number of products available on its website.</li>
-                <li>Wrote ad hoc SQL queries to investigate core model statistics and fine tune scoring distributions.</li>
-                <li>Worked closely with Product and Engineering teams to identify and fix anomalies and to address user UX feedback.</li>
-              </ul>
-            </div> -->
 
           </div>
-          
+
         </div>
 
       </div>
     </section><!-- End Resume Section -->
 
-    <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio section-bg">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
       <div class="container">
 
-        <div class="section-title">
-          <h2>Portfolio</h2>
-          <p>Some freelance jobs and personal projects I've built over the years.</p>
-        </div>
-
-
-        <!-- <div class="row" data-aos="fade-up">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-work">Work</li>
-              <li data-filter=".filter-personal">Personal</li>
-            </ul>
-          </div>
+        <!-- <div class="section-title">
+          
         </div> -->
 
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-personal">
-            <a href="camp-counselor.html">
-              <div class="portfolio-wrap">
-                <h4>Camp Counselor</h4>
-                <img src="camp-counselor-screenshot.png" class="img-fluid" alt="">
-              </div>
-            </a>
+        <div class="row">
+          <div class="col-lg-8 pt-4 pt-lg-0 content section-title" data-aos="fade-right">
+            <h2>My Journey to Data Science</h2>
+            <p>I started my career as a chemical engineer in the mining industry--abroad in Santiago, Chile, no less. It
+              was there that I got my first taste of <em>datamining</em>, as it was called back then, using R. Fast
+              forward four years, and my obsession with Excel macros bore fruit in the form of a document generator for
+              a commonly submitted report at work. Suddenly, I found myself firmly in the grip of the buzzing tech scene
+              of San Francisco. I started building Ethereum miners and selling them online. I jumped at the opportunity
+              to build an IoT-driven data dashboard at work. I was hooked. I enrolled in a machine learning bootcamp and
+              snagged a job in finance. Before I knew it, I was forecasting investment transaction volumes and modeling
+              ESG ratings. This all brought me to PlanetX, a startup that, while it lasted, sought to bring
+              environmental transparency to online shopping.</p>
           </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-work">
-            <a href="preventative-maintenance.html">
-              <div class="portfolio-wrap">
-                <h4>Refinery Preventative Maintenance</h4>
-                <img src="gas-compressor-refinery.jpg" class="img-fluid" alt="">
-              </div>
-            </a>
+          <div class="col-lg-4" data-aos="fade-left">
+            <img src="assets/main_site/img/profile-img.jpg" class="img-fluid" alt="" width="300" height="300">
           </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-work">
-            <a href="whalewatch.html">
-              <div class="portfolio-wrap">
-                <h4>Project WhaleWatch</h4>
-                <img src="whalewatch.jpg" class="img-fluid" alt="">
-              </div>
-            </a>
-          </div>
-
-
         </div>
 
       </div>
-    </section><!-- End Portfolio Section -->
+    </section><!-- End About Section -->
+
 
     <!-- ======= Fun Stuff Section ======= -->
     <!-- <section id="services" class="services">
@@ -319,24 +367,25 @@
 
   </main><!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/main_site/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/main_site/vendor/aos/aos.js"></script>
+  <script src="assets/main_site/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/main_site/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/main_site/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/main_site/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/main_site/vendor/typed.js/typed.umd.js"></script>
+  <script src="assets/main_site/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/main_site/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/main_site/js/main.js"></script>
 
   <!-- copy to clipboard JS file -->
-  <script src="assets/js/copy-to-clipboard.js"></script>
+  <script src="assets/main_site/js/copy-to-clipboard.js"></script>
 
 </body>
 
