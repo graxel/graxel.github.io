@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Streams</title>
+    <style>
+        :root {
+            --color-bg-primary: rgba(252, 252, 249, 1);
+            --color-text-primary: rgba(19, 52, 59, 1);
+            --color-border: rgba(94, 82, 64, 0.2);
+            --color-primary: rgba(33, 128, 141, 1);
+            --color-surface: rgba(255, 255, 253, 1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            --radius-lg: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-20);
+        }
+
+        header {
+            margin-bottom: var(--space-24);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: var(--space-16);
+            letter-spacing: -0.01em;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: rgba(98, 108, 113, 1);
+            margin: 0;
+        }
+
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: var(--space-24);
+            flex: 1;
+        }
+
+        .camera-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .camera-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        .camera-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-16);
+            border-bottom: 1px solid var(--color-border);
+            background: rgba(252, 252, 249, 0.5);
+        }
+
+        .camera-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(33, 128, 141, 1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .camera-feed {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: rgba(98, 108, 113, 1);
+        }
+
+        .camera-feed img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(33, 128, 141, 0.2);
+            border-top-color: rgba(33, 128, 141, 1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .camera-footer {
+            padding: var(--space-16);
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            gap: var(--space-16);
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .stream-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stream-info-label {
+            color: rgba(98, 108, 113, 1);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stream-info-value {
+            color: var(--color-text-primary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 1024px) {
+            .camera-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: var(--space-16);
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: var(--space-16);
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .camera-grid {
+                gap: var(--space-16);
+            }
+
+            .camera-header {
+                padding: var(--space-16);
+            }
+
+            .camera-footer {
+                padding: var(--space-16);
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Camera Stream Monitor</h1>
+        <p class="header-subtitle">Live feeds from OV5470 camera modules</p>
+    </header>
+
+    <main>
+        <div class="camera-grid">
+            <!-- Camera 1 -->
+            <div class="camera-card">
+                <div class="camera-header">
+                    <div class="camera-title">
+                        <span class="status-indicator"></span>
+                        Camera 1
+                    </div>
+                </div>
+                <div class="camera-feed" id="feed1">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div class="camera-footer">
+                    <div class="stream-info">
+                        <div class="stream-info-label">Resolution: 1920 x 1080</div>
+                        <div class="stream-info-value">MJPEG Stream</div>
+                    </div>
+                    <div class="stream-info">
+                        <div class="stream-info-label">Status</div>
+                        <div class="stream-info-value" id="status1">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camera 2 -->
+            <div class="camera-card">
+                <div class="camera-header">
+                    <div class="camera-title">
+                        <span class="status-indicator"></span>
+                        Camera 2
+                    </div>
+                </div>
+                <div class="camera-feed" id="feed2">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div class="camera-footer">
+                    <div class="stream-info">
+                        <div class="stream-info-label">Resolution: 1920 x 1080</div>
+                        <div class="stream-info-value">MJPEG Stream</div>
+                    </div>
+                    <div class="stream-info">
+                        <div class="stream-info-label">Status</div>
+                        <div class="stream-info-value" id="status2">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Configure your stream URLs here
+        const STREAMS = {
+            cam1: '/stream/cam1',  // Update to your camera 1 endpoint
+            cam2: '/stream/cam2'   // Update to your camera 2 endpoint
+        };
+
+        class CameraStream {
+            constructor(feedId, statusId, streamUrl) {
+                this.feedElement = document.getElementById(feedId);
+                this.statusElement = document.getElementById(statusId);
+                this.streamUrl = streamUrl;
+                this.img = null;
+                this.isLoading = true;
+                this.init();
+            }
+
+            init() {
+                this.img = document.createElement('img');
+                this.img.alt = 'Camera Stream';
+                this.img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+                this.img.src = this.streamUrl;
+
+                this.img.onload = () => {
+                    if (this.isLoading) {
+                        this.feedElement.innerHTML = '';
+                        this.feedElement.appendChild(this.img);
+                        this.statusElement.textContent = 'Active';
+                        this.statusElement.style.color = 'rgba(33, 128, 141, 1)';
+                        this.isLoading = false;
+                    }
+                };
+
+                this.img.onerror = () => {
+                    this.statusElement.textContent = 'Connection Error';
+                    this.statusElement.style.color = 'rgba(192, 21, 47, 1)';
+                };
+
+                // Start loading
+                if (this.isLoading) {
+                    this.statusElement.textContent = 'Loading...';
+                    this.statusElement.style.color = 'rgba(98, 108, 113, 1)';
+                }
+            }
+        }
+
+        // Initialize camera streams
+        const camera1 = new CameraStream('feed1', 'status1', STREAMS.cam1);
+        const camera2 = new CameraStream('feed2', 'status2', STREAMS.cam2);
+    </script>
+</body>
+
+</html>
