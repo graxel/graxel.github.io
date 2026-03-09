@@ -10,13 +10,13 @@
   <style>
     :root {
       --bg:       #0a0a0a;
-      --surface:  #111111;
-      --border:   #222222;
+      --surface:  #1a1a1a;
+      --border:   #303030;
       --amber:    #f5a623;
       --green:    #3ddc84;
       --red:      #ff4d4d;
       --text:     #e8e8e8;
-      --muted:    #555555;
+      --muted:    #aaaaaa;
       --mono:     'Space Mono', monospace;
       --sans:     'DM Sans', sans-serif;
     }
@@ -187,8 +187,8 @@
 
     .score-value {
       font-family: var(--mono);
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 500;
       line-height: 1;
     }
     .score-value.good { color: var(--green); }
@@ -253,7 +253,8 @@
 </main>
 
 <script>
-  const API = "https://data.kevingrazel.com:4443/mushrooms";
+  // const API = "https://data.kevingrazel.com:4443/mushrooms";
+  const API = "http://localhost:8003/mushrooms/api";
 
   // Clock
   const clock = document.getElementById('clock');
@@ -270,7 +271,18 @@
     font: { family: 'Space Mono, monospace', color: '#e8e8e8', size: 10 },
     margin: { t: 10, r: 10, b: 40, l: 50 },
     showlegend: true,
-    legend: { bgcolor: 'transparent', font: { size: 9 } },
+    // legend: { bgcolor: 'transparent', font: { size: 9 } },
+    legend: {
+      bgcolor: 'transparent',
+      font: { size: 9 },
+      orientation: 'h',      // horizontal
+      // x: 0.5,                // centered
+      x: 0.0,
+      xanchor: 'center',
+      // y: -0.2,               // below the plot
+      y: -0.5,
+      yanchor: 'top',
+    },
     xaxis: { gridcolor: '#1e1e1e', zerolinecolor: '#333' },
     yaxis: { gridcolor: '#1e1e1e', zerolinecolor: '#333' },
   };
@@ -287,22 +299,37 @@
     return name.replace(/[^a-z0-9]/gi, '_');
   }
 
-  function confusionTrace(cm, dataset) {
-    const labels = ['Poisonous (0)', 'Edible (1)'];
-    return [{
-      type: 'heatmap',
-      z: cm,
-      texttemplate: '%{z}',
-      x: labels,
-      y: labels,
-      colorscale: dataset === 'pre'
-        ? [[0, '#1a0f00'], [1, '#f5a623']]
-        : [[0, '#001a0d'], [1, '#3ddc84']],
-      showscale: false,
-    }];
-  }
+function confusionTrace(cm, dataset) {
+  const labels = ['Edible 0', 'Poisonous 1'];
 
-  function buildScoreBlock(label, dotClass, metrics) {
+  // Add cell labels: TN, FP, FN, TP
+  const cellLabels = [
+    ['TN', 'FP'],
+    ['FN', 'TP'],
+  ];
+
+  const text = cm.map((row, i) =>
+    row.map((val, j) => `${cellLabels[i][j]}<br>${val}`)
+  );
+
+  return [{
+    type: 'heatmap',
+    z: cm,
+    text: text,
+    texttemplate: '%{text}',
+    textfont: { size: 12 },
+    hovertemplate: null,
+    hoverongaps: false,
+    x: labels,
+    y: labels,
+    colorscale: dataset === 'pre'
+      ? [[0, '#1a0f00'], [1, '#f5a623']]
+      : [[0, '#001a0d'], [1, '#3ddc84']],
+    showscale: false,
+  }];
+}
+
+  function buildScoreBlock(label, dotClass, metrics, valueColor) {
     if (!metrics) return `
       <div class="dataset-block">
         <div class="dataset-header">
@@ -321,8 +348,8 @@
     const cells = scores.map(([name, val]) => `
       <div class="score-cell">
         <div class="score-name">${name}</div>
-        <div class="score-value ${scoreClass(val)}">
-          ${(val * 100).toFixed(1)}<span style="font-size:12px;color:var(--muted)">%</span>
+        <div class="score-value" style="color: ${valueColor}">
+        ${(val * 100).toFixed(1)}<span style="font-size:12px;color:var(--muted)">%</span>
         </div>
       </div>`).join('');
 
@@ -338,7 +365,7 @@
 
   function renderPanel(data) {
     const { model_name, model_version, deployed_at, pre, post } = data;
-    const id = safeId(model_name);
+    const id = safeId(`${model_name}-${model_version}`);
 
     return `
       <div class="meta-bar fade-up">
@@ -358,8 +385,8 @@
 
       <div class="section-label">Performance Metrics</div>
       <div class="metrics-grid fade-up">
-        ${buildScoreBlock('PRE-DEPLOYMENT',  'dot-pre',  pre)}
-        ${buildScoreBlock('POST-DEPLOYMENT', 'dot-post', post)}
+        ${buildScoreBlock('PRE-DEPLOYMENT DATA',  'dot-pre',  pre,  'var(--amber)')}
+        ${buildScoreBlock('POST-DEPLOYMENT DATA', 'dot-post', post, 'var(--green)')}
       </div>
 
       <div class="section-label">Diagnostic Charts</div>
@@ -385,7 +412,7 @@
 
   function plotCharts(model_name, data) {
     const { pre, post } = data;
-    const id = safeId(model_name);
+    const id = safeId(`${model_name}`);
 
     if (pre) {
       Plotly.newPlot(`cm-pre-${id}`, confusionTrace(pre.confusion_matrix, 'pre'), {
@@ -393,7 +420,7 @@
         margin: { t: 10, r: 10, b: 60, l: 80 },
         xaxis: { ...PLOT_BASE.xaxis, title: 'Predicted' },
         yaxis: { ...PLOT_BASE.yaxis, title: 'Actual' },
-      }, { responsive: true, displayModeBar: false });
+      }, { responsive: false, displayModeBar: false, staticPlot: true });
     }
 
     if (post) {
@@ -402,7 +429,7 @@
         margin: { t: 10, r: 10, b: 60, l: 80 },
         xaxis: { ...PLOT_BASE.xaxis, title: 'Predicted' },
         yaxis: { ...PLOT_BASE.yaxis, title: 'Actual' },
-      }, { responsive: true, displayModeBar: false });
+      }, { responsive: true, displayModeBar: false, staticPlot: true });
     }
 
     // ROC curve
@@ -448,13 +475,16 @@
     }
 
     tabs.innerHTML = models.map((m, i) =>
-      `<button class="model-tab ${i === 0 ? 'active' : ''}" data-model="${m.name}">
-        ${m.name}
+      `<button class="model-tab ${i === 0 ? 'active' : ''}"
+        data-model="${m.name}"
+        data-version="${m.version}">
+        ${m.name} v${m.version}
       </button>`
     ).join('');
 
     main.innerHTML = models.map((m, i) =>
-      `<div class="model-panel ${i === 0 ? 'active' : ''}" id="panel-${m.name}">
+      `<div class="model-panel ${i === 0 ? 'active' : ''}"
+        id="panel-${m.name}-${m.version}">
         <div class="loading-state"><span class="blink">█</span>&nbsp; FETCHING METRICS...</div>
       </div>`
     ).join('');
@@ -465,18 +495,29 @@
       document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.model-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById(`panel-${btn.dataset.model}`).classList.add('active');
+      // document.getElementById(`panel-${btn.dataset.model}-${btn.dataset.version}`).classList.add('active');
+      const panel = document.getElementById(`panel-${btn.dataset.model}-${btn.dataset.version}`);
+      panel.classList.add('active');
+
+      // // Resize all Plotly charts in the newly visible panel
+      // panel.querySelectorAll('.js-plotly-plot').forEach(el => Plotly.relayout(el, {}));
+
+      // Wait for paint then resize
+      setTimeout(() => {
+        panel.querySelectorAll('.js-plotly-plot').forEach(el => Plotly.relayout(el, {}));
+      }, 50);
+
     });
 
     for (const m of models) {
       try {
-        const res = await fetch(`${API}/metrics/${encodeURIComponent(m.name)}`);
+        const res = await fetch(`${API}/metrics/${encodeURIComponent(m.name)}?version=${m.version}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        document.getElementById(`panel-${m.name}`).innerHTML = renderPanel(data);
-        plotCharts(m.name, data);
+        document.getElementById(`panel-${m.name}-${m.version}`).innerHTML = renderPanel(data);
+        plotCharts(`${m.name}-${m.version}`, data);
       } catch (err) {
-        document.getElementById(`panel-${m.name}`).innerHTML =
+        document.getElementById(`panel-${m.name}-${m.version}`).innerHTML =
           `<div class="error-state">⚠ Failed to load metrics for ${m.name}<br><small>${err.message}</small></div>`;
       }
     }
