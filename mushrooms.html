@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MUSHROOM // MODEL MONITOR</title>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0a0a0a;
+      --surface:  #111111;
+      --border:   #222222;
+      --amber:    #f5a623;
+      --green:    #3ddc84;
+      --red:      #ff4d4d;
+      --text:     #e8e8e8;
+      --muted:    #555555;
+      --mono:     'Space Mono', monospace;
+      --sans:     'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      color: var(--amber);
+      text-transform: uppercase;
+    }
+    .logo span { color: var(--muted); }
+
+    .header-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .model-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      overflow-x: auto;
+    }
+
+    .model-tab {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 14px 20px;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .model-tab:hover { color: var(--text); }
+    .model-tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+    main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+    .model-panel { display: none; }
+    .model-panel.active { display: block; }
+
+    .meta-bar {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 32px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+
+    .meta-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .meta-value {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--amber);
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .dataset-block {
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .dataset-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .dot-pre  { background: var(--amber); }
+    .dot-post { background: var(--green); }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .score-cell {
+      padding: 16px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .score-cell:last-child { border-right: none; }
+
+    .score-name {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .score-value {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .score-value.good { color: var(--green); }
+    .score-value.warn { color: var(--amber); }
+    .score-value.bad  { color: var(--red); }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .chart-block {
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .chart-title {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .chart-body { padding: 8px; }
+
+    .loading-state, .error-state {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 48px 32px;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+    .error-state { color: var(--red); }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .blink { animation: blink 1s step-end infinite; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.4s ease forwards; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Mushroom <span>//</span> Model Monitor</div>
+  <div class="header-meta" id="clock"></div>
+</header>
+
+<nav class="model-tabs" id="modelTabs"></nav>
+
+<main id="mainContent">
+  <div class="loading-state"><span class="blink">█</span>&nbsp; LOADING MODELS...</div>
+</main>
+
+<script>
+  const API = "https://data.kevingrazel.com/mushrooms";
+
+  // Clock
+  const clock = document.getElementById('clock');
+  const tick = () => {
+    clock.textContent = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+  };
+  tick();
+  setInterval(tick, 1000);
+
+  // Plotly base layout
+  const PLOT_BASE = {
+    paper_bgcolor: '#111111',
+    plot_bgcolor:  '#111111',
+    font: { family: 'Space Mono, monospace', color: '#e8e8e8', size: 10 },
+    margin: { t: 10, r: 10, b: 40, l: 50 },
+    showlegend: true,
+    legend: { bgcolor: 'transparent', font: { size: 9 } },
+    xaxis: { gridcolor: '#1e1e1e', zerolinecolor: '#333' },
+    yaxis: { gridcolor: '#1e1e1e', zerolinecolor: '#333' },
+  };
+
+  const COLORS = { pre: '#f5a623', post: '#3ddc84' };
+
+  function scoreClass(val) {
+    if (val >= 0.90) return 'good';
+    if (val >= 0.70) return 'warn';
+    return 'bad';
+  }
+
+  function safeId(name) {
+    return name.replace(/[^a-z0-9]/gi, '_');
+  }
+
+  function confusionTrace(cm, dataset) {
+    const labels = ['Poisonous (0)', 'Edible (1)'];
+    return [{
+      type: 'heatmap',
+      z: cm,
+      texttemplate: '%{z}',
+      x: labels,
+      y: labels,
+      colorscale: dataset === 'pre'
+        ? [[0, '#1a0f00'], [1, '#f5a623']]
+        : [[0, '#001a0d'], [1, '#3ddc84']],
+      showscale: false,
+    }];
+  }
+
+  function buildScoreBlock(label, dotClass, metrics) {
+    if (!metrics) return `
+      <div class="dataset-block">
+        <div class="dataset-header">
+          <span class="dot ${dotClass}"></span>${label} — NO DATA
+        </div>
+      </div>`;
+
+    const scores = [
+      ['Accuracy',   metrics.accuracy],
+      ['Precision',  metrics.precision],
+      ['Recall',     metrics.recall],
+      ['F1',         metrics.f1],
+      ['F32 (β=32)', metrics.f32],
+    ];
+
+    const cells = scores.map(([name, val]) => `
+      <div class="score-cell">
+        <div class="score-name">${name}</div>
+        <div class="score-value ${scoreClass(val)}">
+          ${(val * 100).toFixed(1)}<span style="font-size:12px;color:var(--muted)">%</span>
+        </div>
+      </div>`).join('');
+
+    return `
+      <div class="dataset-block">
+        <div class="dataset-header">
+          <span class="dot ${dotClass}"></span>
+          ${label} &nbsp;·&nbsp; n=${metrics.n.toLocaleString()}
+        </div>
+        <div class="score-row">${cells}</div>
+      </div>`;
+  }
+
+  function renderPanel(data) {
+    const { model_name, model_version, deployed_at, pre, post } = data;
+    const id = safeId(model_name);
+
+    return `
+      <div class="meta-bar fade-up">
+        <div class="meta-item">
+          <div class="meta-label">Model</div>
+          <div class="meta-value">${model_name}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Version</div>
+          <div class="meta-value">v${model_version}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Last Deployed</div>
+          <div class="meta-value">${deployed_at.slice(0, 19)} UTC</div>
+        </div>
+      </div>
+
+      <div class="section-label">Performance Metrics</div>
+      <div class="metrics-grid fade-up">
+        ${buildScoreBlock('PRE-DEPLOYMENT',  'dot-pre',  pre)}
+        ${buildScoreBlock('POST-DEPLOYMENT', 'dot-post', post)}
+      </div>
+
+      <div class="section-label">Diagnostic Charts</div>
+      <div class="charts-grid fade-up">
+        <div class="chart-block">
+          <div class="chart-title">Confusion Matrix — Pre</div>
+          <div class="chart-body"><div id="cm-pre-${id}"  style="height:260px"></div></div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-title">Confusion Matrix — Post</div>
+          <div class="chart-body"><div id="cm-post-${id}" style="height:260px"></div></div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-title">ROC Curve</div>
+          <div class="chart-body"><div id="roc-${id}"     style="height:260px"></div></div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-title">Precision-Recall Curve</div>
+          <div class="chart-body"><div id="pr-${id}"      style="height:260px"></div></div>
+        </div>
+      </div>`;
+  }
+
+  function plotCharts(model_name, data) {
+    const { pre, post } = data;
+    const id = safeId(model_name);
+
+    if (pre) {
+      Plotly.newPlot(`cm-pre-${id}`, confusionTrace(pre.confusion_matrix, 'pre'), {
+        ...PLOT_BASE,
+        margin: { t: 10, r: 10, b: 60, l: 80 },
+        xaxis: { ...PLOT_BASE.xaxis, title: 'Predicted' },
+        yaxis: { ...PLOT_BASE.yaxis, title: 'Actual' },
+      }, { responsive: true, displayModeBar: false });
+    }
+
+    if (post) {
+      Plotly.newPlot(`cm-post-${id}`, confusionTrace(post.confusion_matrix, 'post'), {
+        ...PLOT_BASE,
+        margin: { t: 10, r: 10, b: 60, l: 80 },
+        xaxis: { ...PLOT_BASE.xaxis, title: 'Predicted' },
+        yaxis: { ...PLOT_BASE.yaxis, title: 'Actual' },
+      }, { responsive: true, displayModeBar: false });
+    }
+
+    // ROC curve
+    const rocTraces = [];
+    if (pre)  rocTraces.push({ x: pre.roc.fpr,  y: pre.roc.tpr,  mode: 'lines', name: `Pre (AUC=${pre.roc.auc})`,   line: { color: COLORS.pre,  width: 2 } });
+    if (post) rocTraces.push({ x: post.roc.fpr, y: post.roc.tpr, mode: 'lines', name: `Post (AUC=${post.roc.auc})`, line: { color: COLORS.post, width: 2 } });
+    rocTraces.push({ x: [0,1], y: [0,1], mode: 'lines', line: { color: '#333', dash: 'dash', width: 1 }, showlegend: false });
+
+    Plotly.newPlot(`roc-${id}`, rocTraces, {
+      ...PLOT_BASE,
+      xaxis: { ...PLOT_BASE.xaxis, title: 'FPR', range: [0, 1] },
+      yaxis: { ...PLOT_BASE.yaxis, title: 'TPR', range: [0, 1] },
+    }, { responsive: true, displayModeBar: false });
+
+    // PR curve
+    const prTraces = [];
+    if (pre)  prTraces.push({ x: pre.pr_curve.recall,  y: pre.pr_curve.precision,  mode: 'lines', name: 'Pre',  line: { color: COLORS.pre,  width: 2 } });
+    if (post) prTraces.push({ x: post.pr_curve.recall, y: post.pr_curve.precision, mode: 'lines', name: 'Post', line: { color: COLORS.post, width: 2 } });
+
+    Plotly.newPlot(`pr-${id}`, prTraces, {
+      ...PLOT_BASE,
+      xaxis: { ...PLOT_BASE.xaxis, title: 'Recall',    range: [0, 1] },
+      yaxis: { ...PLOT_BASE.yaxis, title: 'Precision', range: [0, 1] },
+    }, { responsive: true, displayModeBar: false });
+  }
+
+  async function init() {
+    const tabs = document.getElementById('modelTabs');
+    const main = document.getElementById('mainContent');
+
+    let models;
+    try {
+      const res = await fetch(`${API}/models`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      models = await res.json();
+    } catch (err) {
+      main.innerHTML = `
+        <div class="error-state">
+          ⚠ Could not reach API at ${API}<br>
+          <small>${err.message}</small>
+        </div>`;
+      return;
+    }
+
+    tabs.innerHTML = models.map((m, i) =>
+      `<button class="model-tab ${i === 0 ? 'active' : ''}" data-model="${m.name}">
+        ${m.name}
+      </button>`
+    ).join('');
+
+    main.innerHTML = models.map((m, i) =>
+      `<div class="model-panel ${i === 0 ? 'active' : ''}" id="panel-${m.name}">
+        <div class="loading-state"><span class="blink">█</span>&nbsp; FETCHING METRICS...</div>
+      </div>`
+    ).join('');
+
+    tabs.addEventListener('click', e => {
+      const btn = e.target.closest('.model-tab');
+      if (!btn) return;
+      document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.model-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`panel-${btn.dataset.model}`).classList.add('active');
+    });
+
+    for (const m of models) {
+      try {
+        const res = await fetch(`${API}/metrics/${encodeURIComponent(m.name)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        document.getElementById(`panel-${m.name}`).innerHTML = renderPanel(data);
+        plotCharts(m.name, data);
+      } catch (err) {
+        document.getElementById(`panel-${m.name}`).innerHTML =
+          `<div class="error-state">⚠ Failed to load metrics for ${m.name}<br><small>${err.message}</small></div>`;
+      }
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
