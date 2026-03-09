@@ -61,36 +61,14 @@
       letter-spacing: 0.08em;
     }
 
-    .model-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      overflow-x: auto;
-    }
-
-    .model-tab {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 14px 20px;
-      cursor: pointer;
-      color: var(--muted);
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
-      transition: color 0.15s, border-color 0.15s;
-      background: none;
-      border-top: none;
-      border-left: none;
-      border-right: none;
-    }
-    .model-tab:hover { color: var(--text); }
-    .model-tab.active { color: var(--amber); border-bottom-color: var(--amber); }
-
     main { padding: 32px; max-width: 1400px; margin: 0 auto; }
 
-    .model-panel { display: none; }
-    .model-panel.active { display: block; }
+    .model-panel { display: block; }
+
+    .model-divider {
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
 
     .meta-bar {
       display: flex;
@@ -191,9 +169,6 @@
       font-weight: 500;
       line-height: 1;
     }
-    .score-value.good { color: var(--green); }
-    .score-value.warn { color: var(--amber); }
-    .score-value.bad  { color: var(--red); }
 
     .charts-grid {
       display: grid;
@@ -237,6 +212,46 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .fade-up { animation: fadeUp 0.4s ease forwards; }
+
+    /* ── Tablet ── */
+    @media (max-width: 768px) {
+      .charts-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .score-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .score-cell:nth-child(3) { border-right: none; }
+      .score-cell:nth-child(4) { border-top: 1px solid var(--border); }
+      .score-cell:nth-child(5) { border-top: 1px solid var(--border); }
+      .meta-bar {
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      main {
+        padding: 16px;
+      }
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+      .score-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .score-cell:nth-child(2) { border-right: none; }
+      .score-cell:nth-child(3) { border-top: 1px solid var(--border); }
+      .score-cell:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+      .score-cell:nth-child(5) { border-top: 1px solid var(--border); }
+      header {
+        padding: 0 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -245,8 +260,6 @@
   <div class="logo">Mushroom <span>//</span> Model Monitor</div>
   <div class="header-meta" id="clock"></div>
 </header>
-
-<nav class="model-tabs" id="modelTabs"></nav>
 
 <main id="mainContent">
   <div class="loading-state"><span class="blink">█</span>&nbsp; LOADING MODELS...</div>
@@ -457,7 +470,6 @@ function confusionTrace(cm, dataset) {
   }
 
   async function init() {
-    const tabs = document.getElementById('modelTabs');
     const main = document.getElementById('mainContent');
 
     let models;
@@ -474,40 +486,12 @@ function confusionTrace(cm, dataset) {
       return;
     }
 
-    tabs.innerHTML = models.map((m, i) =>
-      `<button class="model-tab ${i === 0 ? 'active' : ''}"
-        data-model="${m.name}"
-        data-version="${m.version}">
-        ${m.name} v${m.version}
-      </button>`
-    ).join('');
-
     main.innerHTML = models.map((m, i) =>
-      `<div class="model-panel ${i === 0 ? 'active' : ''}"
-        id="panel-${m.name}-${m.version}">
+      `<div class="model-panel" id="panel-${m.name}-${m.version}">
         <div class="loading-state"><span class="blink">█</span>&nbsp; FETCHING METRICS...</div>
-      </div>`
+      </div>
+      ${i < models.length - 1 ? '<div class="model-divider"></div>' : ''}`
     ).join('');
-
-    tabs.addEventListener('click', e => {
-      const btn = e.target.closest('.model-tab');
-      if (!btn) return;
-      document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.model-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      // document.getElementById(`panel-${btn.dataset.model}-${btn.dataset.version}`).classList.add('active');
-      const panel = document.getElementById(`panel-${btn.dataset.model}-${btn.dataset.version}`);
-      panel.classList.add('active');
-
-      // // Resize all Plotly charts in the newly visible panel
-      // panel.querySelectorAll('.js-plotly-plot').forEach(el => Plotly.relayout(el, {}));
-
-      // Wait for paint then resize
-      setTimeout(() => {
-        panel.querySelectorAll('.js-plotly-plot').forEach(el => Plotly.relayout(el, {}));
-      }, 150);
-
-    });
 
     for (const m of models) {
       try {
@@ -518,7 +502,7 @@ function confusionTrace(cm, dataset) {
         plotCharts(`${m.name}-${m.version}`, data);
       } catch (err) {
         document.getElementById(`panel-${m.name}-${m.version}`).innerHTML =
-          `<div class="error-state">⚠ Failed to load metrics for ${m.name}<br><small>${err.message}</small></div>`;
+          `<div class="error-state">⚠ Failed to load metrics for ${m.name} v${m.version}<br><small>${err.message}</small></div>`;
       }
     }
   }
