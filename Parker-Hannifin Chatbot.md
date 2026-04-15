@@ -1,3 +1,5 @@
+# Parker-Hannifin Chatbot
+
 At Parker-Hannifin, I built an AI agent that allows support service techs to chat with the content of catalogues and service manuals to get quick answers to questions while helping clients. The chatbot was accessed with MS Teams. Users would upload documents directly in the chat window, where they would automatically be processed with a series of tools in Azure for interaction.
 
 I owned the entire development process, from technical architecture to ensuring smooth devops practices for deployment and iteration. I collaborated with a product manager for functionality prioritization and led one junior engineer who helped me with implementation. I handled project scoping, data pipeline design, vector retrieval logic, and all Azure infrastructure.
