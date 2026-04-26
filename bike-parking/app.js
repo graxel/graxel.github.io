@@ -569,28 +569,32 @@ function renderChart(canvasId, hudId, defaultHudText, historyData, totalCapacity
             e.preventDefault();
         }
 
-        // Clear Chart.js internal state
-        chart.setActiveElements([]);
-        chart.tooltip.setActiveElements([], { x: 0, y: 0 });
-        chart.update();
+        // Delay the clear slightly so any pending Chart.js animation frames 
+        // (from a late touchmove) are processed first, ensuring our clear isn't overwritten.
+        setTimeout(() => {
+            // Clear Chart.js internal state
+            chart.setActiveElements([]);
+            chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+            chart.update();
 
-        // Force an immediate synchronous reset of the HUD and UI elements
-        // bypassing any async Chart.js render queues.
-        const hudEl = document.getElementById(hudId);
-        if (hudEl) hudEl.innerHTML = defaultHudText;
+            // Force an immediate synchronous reset of the HUD and UI elements
+            // bypassing any async Chart.js render queues.
+            const hudEl = document.getElementById(hudId);
+            if (hudEl) hudEl.innerHTML = defaultHudText;
 
-        const dateAreaEl = document.getElementById(`date-area-${groupSlug}`);
-        if (dateAreaEl) dateAreaEl.style.visibility = "hidden";
+            const dateAreaEl = document.getElementById(`date-area-${groupSlug}`);
+            if (dateAreaEl) dateAreaEl.style.visibility = "hidden";
 
-        groupStations.forEach(s => {
-            const sId = `station-${s.station_id}-val-${groupSlug}`;
-            const elId = document.getElementById(sId);
-            if (elId) {
-                const safeDocks = Math.round(s.num_docks_available || 0);
-                const paddedDocks = (safeDocks >= 0 && safeDocks < 10) ? `<span style="visibility: hidden;">0</span>${safeDocks}` : `${safeDocks}`;
-                elId.innerHTML = `<span style="background: rgba(16, 185, 129, 0.2); color: var(--success-color); padding: 0.2rem 0.6rem; border-radius: 4px; font-weight:600;">docks: ${paddedDocks}</span>`;
-            }
-        });
+            groupStations.forEach(s => {
+                const sId = `station-${s.station_id}-val-${groupSlug}`;
+                const elId = document.getElementById(sId);
+                if (elId) {
+                    const safeDocks = Math.round(s.num_docks_available || 0);
+                    const paddedDocks = (safeDocks >= 0 && safeDocks < 10) ? `<span style="visibility: hidden;">0</span>${safeDocks}` : `${safeDocks}`;
+                    elId.innerHTML = `<span style="background: rgba(16, 185, 129, 0.2); color: var(--success-color); padding: 0.2rem 0.6rem; border-radius: 4px; font-weight:600;">docks: ${paddedDocks}</span>`;
+                }
+            });
+        }, 50);
     };
 
     // { passive: false } is required so we can call e.preventDefault()
