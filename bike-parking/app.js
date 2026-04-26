@@ -27,13 +27,13 @@ const API_CONFIGS = {
 };
 
 function getApiBase() {
-  const params = new URLSearchParams(window.location.search);
-  const env = params.get("api");
+    const params = new URLSearchParams(window.location.search);
+    const env = params.get("api");
 
-  if (env) return API_CONFIGS[env] || API_CONFIGS.qa;
+    if (env) return API_CONFIGS[env] || API_CONFIGS.qa;
 
-  // Default: dev for localhost, prod for remote
-  return isLocal ? API_CONFIGS.dev : API_CONFIGS.qa;
+    // Default: dev for localhost, prod for remote
+    return isLocal ? API_CONFIGS.dev : API_CONFIGS.qa;
 }
 
 const API_BASE = getApiBase();
@@ -366,7 +366,7 @@ function renderChart(canvasId, hudId, defaultHudText, historyData, totalCapacity
         }
     };
 
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
         type: "bar", // "Flying bricks" as vertical bars
         plugins: [midnightGridLinesPlugin, averageLinesPlugin, xAxisLabelsPlugin, hoverHighlightPlugin],
         data: {
@@ -559,4 +559,15 @@ function renderChart(canvasId, hudId, defaultHudText, historyData, totalCapacity
             }
         }
     });
+
+    // On mobile, tapping the chart triggers the hover state. 
+    // We want the hover state to immediately clear when the user lifts their finger.
+    const clearHoverState = () => {
+        chart.setActiveElements([]);
+        chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+        chart.update();
+    };
+
+    el.addEventListener('touchend', clearHoverState);
+    el.addEventListener('touchcancel', clearHoverState);
 }
