@@ -14,7 +14,7 @@
  *
  * Environment endpoints:
  *   Prod (Main): https://data.kevingrazel.com/bike-parking
- *   QA (Test):   https://data.kevingrazel.com:4443/bike-parking
+ *   QA (Test):   https://data.kevingrazel.com:8443/bike-parking
  */
 const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname)
     || /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/.test(window.location.hostname);
