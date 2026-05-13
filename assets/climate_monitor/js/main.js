@@ -11,24 +11,63 @@ const lastUpdatedContainer = document.getElementById('last-updated-container');
 let xData = [];
 let yDataMap = {};
 
+// fetch(FLASK_API_URL)
+//   .then(r => r.json())
+//   .then(data => {
+//     if (!data.obs_time || !data.sensor_data) {
+//       wsStatus.textContent = "Initial data: Missing expected fields";
+//       return;
+//     }
+//     xData = data.obs_time;
+//     yDataMap = {};
+//     Object.keys(data.sensor_data).forEach(key => {
+//       if (key.endsWith('_temp')) yDataMap[key] = data.sensor_data[key];
+//     });
+//     initPlot(xData, yDataMap);
+//     wsStatus.textContent = "Plotted initial data, connecting to WebSocket...";
+//     startWebSocket();
+//   })
+//   .catch(e => {
+//     wsStatus.textContent = "Failed to load initial data: " + e;
+//   });
+
 fetch(FLASK_API_URL)
-  .then(r => r.json())
+  .then(async (r) => {
+    const contentType = r.headers.get('content-type') || '';
+    const bodyText = await r.text();
+
+    if (!r.ok) {
+      throw new Error(`HTTP ${r.status}: ${bodyText.slice(0, 300)}`);
+    }
+
+    if (!contentType.includes('application/json')) {
+      throw new Error(
+        `Expected JSON but got ${contentType || 'unknown content-type'}: ${bodyText.slice(0, 300)}`
+      );
+    }
+
+    return JSON.parse(bodyText);
+  })
   .then(data => {
     if (!data.obs_time || !data.sensor_data) {
       wsStatus.textContent = "Initial data: Missing expected fields";
       return;
     }
+
     xData = data.obs_time;
     yDataMap = {};
+
     Object.keys(data.sensor_data).forEach(key => {
       if (key.endsWith('_temp')) yDataMap[key] = data.sensor_data[key];
     });
+
     initPlot(xData, yDataMap);
     wsStatus.textContent = "Plotted initial data, connecting to WebSocket...";
     startWebSocket();
   })
   .catch(e => {
-    wsStatus.textContent = "Failed to load initial data: " + e;
+    wsStatus.textContent = "Failed to load initial data: " + e.message;
+    console.error("Initial data load failed:", e);
   });
 
 function startWebSocket() {
