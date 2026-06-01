@@ -16,25 +16,23 @@
  *   Prod (Main): https://data.kevingrazel.com/bike-parking
  *   QA (Test):   https://data.kevingrazel.com:8443/bike-parking
  */
-const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+const isLocal = ["localhost", "127.0.0.1", "kevingrazel.local"].includes(window.location.hostname)
     || /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/.test(window.location.hostname);
 
 const API_CONFIGS = {
-    // Use local Nginx proxies when developing locally to bypass CORS,
-    // otherwise use absolute URLs for the deployed Github Pages site.
-    prod: isLocal ? "/bike-parking/prod-proxy" : "https://data.kevingrazel.com/bike-parking",
-    qa: isLocal ? "/bike-parking/qa-proxy" : "https://data.kevingrazel.com:8443/bike-parking",
-    dev: `${window.location.origin}/bike-parking`,
+    prod: "https://data.kevingrazel.com/bike-parking",
+    qa:   "https://data.kevingrazel.com:8443/bike-parking",
+    dev:  "https://data.kevingrazel.local/bike-parking",
 };
 
 function getApiBase() {
     const params = new URLSearchParams(window.location.search);
     const env = params.get("api");
 
-    if (env) return API_CONFIGS[env] || API_CONFIGS.qa;
+    if (env === "dev" && !isLocal) return API_CONFIGS.prod;
+    if (env) return API_CONFIGS[env] || API_CONFIGS.prod;
 
-    // Default: dev for localhost, prod for remote
-    return isLocal ? API_CONFIGS.dev : API_CONFIGS.qa;
+    return API_CONFIGS.prod;
 }
 
 const API_BASE = getApiBase();
@@ -335,7 +333,7 @@ function renderChart(canvasId, hudId, defaultHudText, historyData, totalCapacity
             ctx.beginPath();
             ctx.rect(chart.chartArea.left, chart.chartArea.top, chart.chartArea.width, chart.chartArea.height);
             ctx.clip();
-            
+
             ctx.beginPath();
             ctx.strokeStyle = "rgba(56, 189, 248, 1)"; // Same as box border blue
             ctx.lineWidth = 1.5; // 1.5x the weight of the box border
